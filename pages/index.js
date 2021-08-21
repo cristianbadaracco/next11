@@ -4,7 +4,8 @@ import styles from '../styles/Home.module.css'
 
 import Link from '../components/Link'
 
-export default function Home() {
+export default function Home({data}) {
+  console.log(data)
   return (
     <div className={styles.container}>
       <Head>
@@ -30,6 +31,9 @@ export default function Home() {
         </Link>
 
 
+      <div>
+        {data.map((item, i) => <pre key={i}>{JSON.stringify(item)}</pre>)}
+      </div>
 
         </div>
       </main>
@@ -48,4 +52,14 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos`)
+  const data = await res.json()
+  return {
+    props: {
+      data
+    }, // will be passed to the page component as props
+  }
 }
